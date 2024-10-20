@@ -1,0 +1,68 @@
+// Reset CSS
+*
+    padding: 0
+    margin: 0
+    box-sizing: border-box
+
+body
+    transition: background-color 0.5s ease, color 0.5s ease
+    background-color: #F0FFF4 // Màu nền sáng
+    color: #1F2937 // Màu chữ tối
+
+header
+    transition: background-color 1s ease, color 1s ease
+    background-color: #FFFFFF 
+    color: #1F2937
+
+footer
+    transition: background-color 0.5s ease, color 0.5s ease
+    background-color: #FFFFFF // Màu nền footer sáng
+    color: #1F2937 // Màu chữ tối
+
+// Theme tối
+body.dark
+    background-color: #1F2937 // Màu nền tối
+    color: #D1D5DB // Màu chữ sáng
+
+header.dark
+    background-color: #374151 // Màu nền header tối
+    div
+        div
+            a
+                h3
+                    color: white
+                h1
+                    color: white
+        
+        nav
+            ul
+                li
+                    a
+                        color: white
+
+
+footer.dark
+    background-color: #374151 // Màu nền footer tối
+    div
+        p
+            color: white
+
+.navbar
+    li
+        font-size: 1.1rem
+        font-family: 'Poppins', sans-serif
+        color: white
+
+    a
+        text-decoration: none
+        color: green
+        padding: 5px
+
+    a:hover 
+        background: green
+        color: white
+        padding: 5px
+        border-radius: 0.5rem
+
+main
+    height: 200vh
