@@ -1,68 +1,40 @@
-// Reset CSS
-*
-    padding: 0
-    margin: 0
-    box-sizing: border-box
+.banner
+    height: auto
 
-body
-    transition: background-color 0.5s ease, color 0.5s ease
-    background-color: #F0FFF4 // Màu nền sáng
-    color: #1F2937 // Màu chữ tối
+.slide-down
+    opacity: 0
+    transform: translateY(100px)
+    transition: opacity 1s ease-out, transform 1s ease-out
 
-header
-    transition: background-color 1s ease, color 1s ease
-    background-color: #FFFFFF 
-    color: #1F2937
+.slide-down-active
+    opacity: 1
+    transform: translateY(0)
 
-footer
-    transition: background-color 0.5s ease, color 0.5s ease
-    background-color: #FFFFFF // Màu nền footer sáng
-    color: #1F2937 // Màu chữ tối
+.slide-left
+    opacity: 0
+    transform: translateX(100px)
+    transition: opacity 1s ease-out, transform 1s ease-out
 
-// Theme tối
-body.dark
-    background-color: #1F2937 // Màu nền tối
-    color: #D1D5DB // Màu chữ sáng
+.slide-left-active
+    opacity: 1
+    transform: translateX(0)
 
-header.dark
-    background-color: #374151 // Màu nền header tối
-    div
-        div
-            a
-                h3
-                    color: white
-                h1
-                    color: white
-        
-        nav
-            ul
-                li
-                    a
-                        color: white
+.slide-right
+    opacity: 0
+    transform: translateX(-100px)
+    transition: opacity 1s ease-out, transform 1s ease-out
 
+.slide-right-active
+    opacity: 1
+    transform: translateX(0)
 
-footer.dark
-    background-color: #374151 // Màu nền footer tối
-    div
-        p
-            color: white
+.slide-up
+    opacity: 0
+    transform: translateY(100px)
+    transition: opacity 1s ease-out, transform 1s ease-out
 
-.navbar
-    li
-        font-size: 1.1rem
-        font-family: 'Poppins', sans-serif
-        color: white
-
-    a
-        text-decoration: none
-        color: green
-        padding: 5px
-
-    a:hover 
-        background: green
-        color: white
-        padding: 5px
-        border-radius: 0.5rem
-
-main
-    height: 200vh
+.slide-up-active
+    opacity: 1
+    transform: translateY(0)
+.quote
+    font-family: 'Open sans', sans-serif

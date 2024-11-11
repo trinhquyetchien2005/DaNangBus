@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User; 
+use App\Models\Customers; 
 use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Validator; 
-
 
 class AuthController extends Controller
 {
@@ -16,43 +15,41 @@ class AuthController extends Controller
     {
         // Xác thực dữ liệu đầu vào
         $request->validate([
-            'phone' => 'required|numeric',
+            'email' => 'required|email',
             'password' => 'required|string',
         ]);
 
-        // Lấy thông tin đăng nhập
-        $credentials = $request->only('phone', 'password');
+        $credentials = $request->only('email', 'password');
 
-        // Kiểm tra thông tin đăng nhập
         if (Auth::attempt($credentials)) {
-            // Đăng nhập thành công
-            return redirect()->intended('home'); // Chuyển hướng đến trang dashboard hoặc trang chính
+            return redirect()->intended('pages/home'); 
         }
 
-        // Đăng nhập thất bại
         return back()->withErrors([
-            'phone' => 'Thông tin đăng nhập không chính xác.',
+            'email' => 'Thông tin đăng nhập không chính xác.',
         ]);
     }
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|string|unique:users', 
+            'email' => 'required|string|email|max:255|unique:customers',
+            'phone_number' => 'required|string|unique:customers', 
             'password' => 'required|string|min:8|confirmed', 
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors('Mật khẩu không trùng khớp');
+            return back()->withErrors($validator);
         }
 
-        User::create([
+        Customers::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone_number' => $request->phone_number,
             'password' => Hash::make($request->password),
         ]);
-        return redirect()->route('login')->with('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
+
+        return redirect()->route('home')->with('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
     }
 }

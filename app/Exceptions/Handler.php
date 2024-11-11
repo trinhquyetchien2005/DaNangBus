@@ -44,7 +44,16 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+            
         });
     }
+
+    public function render($request, Throwable $exception)
+{
+    if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+        return redirect()->route('login')->with('message', 'Phiên làm việc đã hết hạn, vui lòng đăng nhập lại.');
+    }
+
+    return parent::render($request, $exception);
+}
 }

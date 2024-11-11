@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "livewire/flux": "^1.0",
+        "livewire/livewire": "*",
         "twilio/sdk": "^8.3"
     },
 
