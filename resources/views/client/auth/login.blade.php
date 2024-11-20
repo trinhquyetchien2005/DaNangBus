@@ -18,14 +18,20 @@
     </div>
 @endif
 
+@if (session('success'))
+<div class="bg-green-500 text-white p-2 rounded mb-4">
+    {{ session('success') }}
+</div>
+@endif
+
 @if ($errors->any())
-    <div class="bg-red-500 text-white p-2 rounded mb-4">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+<div class="bg-red-500 text-white p-2 rounded mb-4">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
 @endif
 
             <form action="{{ route('login') }}" method="POST" class="space-y-4">

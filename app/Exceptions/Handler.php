@@ -54,6 +54,21 @@ class Handler extends ExceptionHandler
         return redirect()->route('login')->with('message', 'Phiên làm việc đã hết hạn, vui lòng đăng nhập lại.');
     }
 
+    if ($this->isHttpException($exception)) {
+        $status = $exception->getStatusCode();
+        
+        // Bạn có thể thực hiện các thao tác tùy chỉnh ở đây (như logging, gửi email, ...)
+        
+        switch ($status) {
+            case 404:
+                return response()->view('errors.404', [], 404);
+            case 500:
+                return response()->view('errors.500', [], 500);
+            case 403:
+                return response()->view('errors.403', [], 403);
+        }
+    }
+
     return parent::render($request, $exception);
 }
 }

@@ -1,0 +1,9 @@
+body {
+  font-family: "Be Vietnam Pro", sans-serif;
+  background-size: cover;
+  background-image: url("/public/image/background/Login.jpg");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat3;
+}/*# sourceMappingURL=login.css.map */

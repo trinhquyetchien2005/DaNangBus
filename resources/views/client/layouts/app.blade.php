@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
     <script src="https://kit.fontawesome.com/dbdd38bf2c.js" crossorigin="anonymous"></script>
-    @vite('resources/sass/app.sass')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css' rel='stylesheet' />
+    @vite(['resources/js/app.js', 'resources/sass/app.sass'])
     @yield('sass')
     <script src="{{ asset('js/header.js') }}"></script>
     @yield('js')
@@ -18,7 +22,7 @@
             <div class=" logo w-fit px-5">
                 <a href="#" class="flex flex-row justify-center items-center float-start">
                     <img src="{{ asset('image/icon_image/logo.png') }}" alt="logo" class="w-10 h-10">
-                    <h1 class="ml-2 text-2xl font-semibold text-green-500 mobile:text-xl tablet:text-xl desktop:text-lg 2.5k:text-2xl">DaNangBus</h1>
+                    <h1 class="ml-2 text-2xl font-semibold text-green-700 mobile:text-xl tablet:text-xl desktop:text-lg 2.5k:text-2xl">DaNangBus</h1>
                 </a>            
             </div>
             <div class="flex-grow flex-col w-fit hidden laptop:flex laptop:justify-around ">
@@ -27,16 +31,16 @@
                         <a href="{{ route('home.pages') }}">Trang Chủ</a>
                     </li>
                     <li>
-                        <a href="{{ route('news.pages') }}">Tin Tức</a>
+                        <a href="{{ route('post.pages') }}">Tin Tức</a>
                     </li>
                     <li>
                         <a href="{{ route('map.pages') }}">Bản Đồ</a>
                     </li>
                     <li>
-                        <a href="#">Vé Của Bạn</a>
+                        <a href="{{ route('ticket.pages') }}">Vé Của Bạn</a>
                     </li>
                     <li>
-                        <a href="#">Liên Hệ</a>
+                        <a href="{{ route('contact.pages') }}">Liên Hệ</a>
                     </li>
                 </ul>
             </div>
@@ -46,11 +50,12 @@
                 </a>
                 
                 @auth
+                <a href="{{ route('account.pages') }}" class="flex flex-row items-center justify-center">
                     <p class="text-gray-800 font-semibold hidden mobile:block">{{ Auth::user()->name }}</p>
                     <img src="{{ asset(Auth::user()->avatar ? 'storage/' . Auth::user()->avatar : 'image/icon_image/avatar.jpg') }}"
                     alt="{{ Auth::user()->name }}"
                     class="w-10 h-10 rounded-full object-cover">
-
+                </a>
                 @else
                     <a href="{{ route('login') }}" class="hidden tablet:flex text-white font-semibold mr-4 py-1 px-3 bg-blue-500 rounded-xl">Đăng nhập</a>
                     <a href="{{ route('register') }}" class="hidden tablet:flex text-blue-500 font-semibold">Đăng ký</a>
@@ -66,16 +71,16 @@
                                 <a href="{{ route('home.pages') }}">Trang Chủ</a>
                             </li>
                             <li>
-                                <a href="{{ route('news.pages') }}">Tin Tức</a>
+                                <a href="{{ route('post.pages') }}">Tin Tức</a>
                             </li>
                             <li>
                                 <a href="{{ route('map.pages') }}">Bản Đồ</a>
                             </li>
                             <li>
-                                <a href="#">Đăng Ký Vé</a>
+                                <a href="{{ route('ticket.pages') }}">Đăng Ký Vé</a>
                             </li>
                             <li>
-                                <a href="#">Liên Hệ</a>
+                                <a href="{{ route('contact.pages') }}">Liên Hệ</a>
                             </li>
                             @auth
                             <li>
@@ -105,28 +110,28 @@
         <div class="flex-1 bg-green-800 grid grid-cols-1 p-8 gap-10">
             <div>
                 <p class="laptop:text-2xl">TRUNG TÂM TỖNG ĐÀI & CSKH</p>
-                <p class="text-2xl text-yellow-300 laptop:text-4xl">1 900 6067</p>
+                <p class="text-2xl text-yellow-300 laptop:text-3xl">1 900 6067</p>
             </div>
             <div class="grid grid-cols-1 tablet:grid-cols-2 gap-10 laptop:grid-cols-3 justify-around laptop:gap-16">
                 <div class="space-y-5">
-                    <h1 class="border-b-2 w-fit pr-4 font-extrabold laptop:text-xl 2.5k:text-2xl">LIÊN HỆ</h1>
-                    <div class="space-y-3 laptop:text-xl 2.5k:text-2xl 2.5k:space-y-6">
+                    <h1 class="border-b-2 w-fit pr-4 font-extrabold laptop:text-md 2.5k:text-2xl">LIÊN HỆ</h1>
+                    <div class="space-y-3 laptop:text-md 2.5k:text-2xl 2.5k:space-y-6">
                         <p> <i class="fa-solid fa-location-dot" style="color: #ffffff;"></i> Khu C3, 493 Trần Cao Vân, Q. Thanh Khê, Tp. Đà Nẵng</p>
                         <p><i class="fa-solid fa-phone-volume" style="color: #ffffff;"></i> 0236 3711 468</p>
                         <p><i class="fa-solid fa-envelope" style="color: #ffffff;"></i> datramac123@gmail.com</p>
                     </div>
                 </div>
                 <div class="space-y-5">
-                    <h1 class="border-b-2 w-fit pr-4 font-extrabold laptop:text-xl 2.5k:text-2xl">LIÊN KẾT WEBSITE</h1>
-                    <div class="space-y-3 laptop:text-xl 2.5k:text-2xl 2.5k:space-y-6">
+                    <h1 class="border-b-2 w-fit pr-4 font-extrabold laptop:text-md 2.5k:text-2xl">LIÊN KẾT WEBSITE</h1>
+                    <div class="space-y-3 laptop:text-md 2.5k:text-2xl 2.5k:space-y-6">
                         <p><a href="#">UBND TP Đà Nẵng</a></p>
                         <p><a href="#">Sở giao thông vận tải</a></p>
                         <p><a href="#">Sở tài nguyên & môi trường</a></p>
                     </div>
                 </div>
                 <div class="space-y-5">
-                    <h1 class="border-b-2 w-fit pr-4 font-extrabold laptop:text-xl 2.5k:text-2xl">TẢI XUỐNG</h1>
-                    <div class="space-y-3 laptop:text-xl 2.5k:text-2xl 2.5k:space-y-6">
+                    <h1 class="border-b-2 w-fit pr-4 font-extrabold laptop:text-md 2.5k:text-2xl">TẢI XUỐNG</h1>
+                    <div class="space-y-3 laptop:text-md 2.5k:text-2xl 2.5k:space-y-6">
                         <p>IOS</p>
                         <p>Android</p>
                     </div>

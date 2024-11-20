@@ -7,16 +7,19 @@ module.exports = {
     './resources/**/*.vue',
     './resources/css/tailwind.css',
     './resources/**/*.sass',
+    './resources/**/*.jsx',
+    './resources/**/*.ts',
+    './resources/**/*.tsx',
   ],
     theme: {
     extend: {},
     screens: {
-      'mobile': '640px',       // Cho thiết bị di động
-      'tablet': '768px',       // Cho máy tính bảng
-      'laptop': '1024px',     // Cho màn hình máy tính nhỏ
-      'desktop': '1280px',    // Màn hình máy tính lớn
-      '2.5k': '1440px',        // Cho độ phân giải 2.5K (WQHD)
+      'mobile': '640px',       
+      'tablet': '768px',       
+      'laptop': '1024px',     
+      'desktop': '1280px',    
+      '2.5k': '1440px',        
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-motion')],
 }

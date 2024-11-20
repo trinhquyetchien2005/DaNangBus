@@ -11,6 +11,7 @@
 @section('title', 'Trang Chủ')
     
 @section('content')
+<div id="app"></div>
 <div class="h-full bg-cover bg-center bg-fixed rounded-xl text-white text-center py-5 px-3 " style="background-image: url('{{ asset('image/background/bgwelcome.jpg') }}');">
     <h1 class="text-sm font-bold tablet:text-lg desktop:text-xl">Chào mừng đến với DaNangBus</h1>
     <hr class="py-2 w-3/4 tablet:w-40 mx-auto laptop:w-52">
@@ -25,7 +26,7 @@
             <a href=""><i class="fa-solid fa-location-dot fa-lg" style="color: #1e64dc;"></i></a>
         </div>
     </div>
-    <div class="bg-white rounded-lg h-fit my-5 p-3 text-black tablet:p-5 tablet:mx-auto  desktop:w-5/6 desktop:mx-auto 2.5k:w-3/5" >
+    <div class="bg-white rounded-lg h-fit my-5 p-3 text-black tablet:p-5 tablet:mx-auto  desktop:w-5/6 desktop:mx-auto 2.5k:w-3/5 motion-preset-expand " >
         <form action="{{ route('search') }}" method="POST" class="space-y-3 tablet:space-y-5 2.5k:space-y-8">
             @csrf
             <input class="block border p-2 w-full rounded-xl tablet:px-3 shadow-lg" type="text" placeholder="Điểm đi">
@@ -54,7 +55,7 @@
             </div>
         </div>
     </div>
-        
+
     <div class="flex flex-col space-y-6 tablet:flex-row tablet:space-x-4 tablet:space-y-0 laptop:flex-1 slide-right" data-effect="slide-right">
         <img src="{{@asset('image/customer/hanhkhach.jpg')}}" alt="customer" class="rounded-xl tablet:flex-1 tablet:w-1/2">
         <div class="space-y-6 tablet:flex-1">
@@ -183,7 +184,7 @@
                 </div>
             </div>
         </div>
-        <img src="{{ @asset('image/icon_image/public-service.png') }}" alt="group" class="hidden tablet:flex tablet:w-1/2 tablet:p-14 laptop:w-1/3 2.5k:w-1/3">
+        <img src="{{ @asset('image/icon_image/public-service.png') }}" alt="group" class="hidden tablet:flex tablet:w-1/2 tablet:p-14 laptop:w-1/3 2.5k:w-1/3 motion-preset-seesaw ">
     </div>
 </div>
 

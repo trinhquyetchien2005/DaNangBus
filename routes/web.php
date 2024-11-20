@@ -2,6 +2,8 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+
 
 Route::group(['prefix' => 'auth'], function () {
     Route::get('/login', function () {
@@ -27,15 +29,28 @@ Route:: group([],function () {
     
     Route::post('/search', [SearchController::class, 'search'])->name('search');
     
-    Route::match (['get', 'post', 'put', 'delete'], 'pages/news', function () {
-        return view('client.pages.news');
-    })->name('news.pages');
+    
+    Route::get('pages/post', [PostController::class, 'show'])->name('post.pages');
+
+    Route::get('/post/{id}', [PostController::class, 'getPost'])->name('post.view');
 
     Route::match (['get', 'post', 'put', 'delete'], 'pages/map', function () {
         return view('client.pages.map');
     })->name('map.pages');
+
+    Route::get('pages/contact', function (){
+        return view('client.pages.contact');
+    })->name('contact.pages');
+
+    Route::post('pages/contact', [ContactController::class, 'FeedBack'])->name('contact.feedback');
+
+    Route::get('pages/ticket', function (){
+        return view('client.pages.ticket');
+    })->name('ticket.pages');
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    
+    Route::get('pages/account', function (){
+        return view('client.pages.account');
+    })->name('account.pages');
 });

@@ -11,6 +11,15 @@
 <div id="registerForm" class="bg-white max-w-md  mx-auto rounded-xl shadow-lg p-6">
     <a href="login" class="text-blue-500 mb-4 inline-block hover:underline">&lt; Quay lại</a>
     <h1 class="text-2xl font-bold mb-4 text-center">Đăng kí</h1>
+    @if ($errors->any())
+        <div class="bg-red-500 text-white p-2 rounded mb-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('register') }}" method="POST" class="grid grid-cols-2 gap-4">
         @csrf
         <div class="form-group col-span-2">

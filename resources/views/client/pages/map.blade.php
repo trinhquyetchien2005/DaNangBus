@@ -8,18 +8,17 @@
 
 @section('content')
 <div>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet" />
     <h1>Tìm đường trên bản đồ</h1>
 
-    <!-- Form nhập điểm đi và điểm đến -->
     <form id="route-form">
         <label for="start">Điểm đi:</label>
         <input type="text" id="start" placeholder="Nhập điểm đi" required autocomplete="off">
-        <div id="start-suggestions" class="suggestions"></div> <!-- Gợi ý cho điểm đi -->
+        <div id="start-suggestions" class="suggestions"></div>
         
         <label for="end">Điểm đến:</label>
         <input type="text" id="end" placeholder="Nhập điểm đến" required autocomplete="off">
-        <div id="end-suggestions" class="suggestions"></div> <!-- Gợi ý cho điểm đến -->
+        <div id="end-suggestions" class="suggestions"></div>
         
         <button type="submit">Tìm đường</button>
     </form>
@@ -28,24 +27,18 @@
 
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoidHJpbmhxdXlldGNoaWVuIiwiYSI6ImNtM2FlbG9pdTEwMTYybG9nN3JvNGczdHkifQ.Eb_L-H2kZlM0BKFCmnVgZw'; // Thay thế bằng Mapbox Access Token của bạn
+        mapboxgl.accessToken = '{{ env('MAPBOX_ACCESS_TOKEN') }}';
 
+        // Khởi tạo bản đồ với Mapbox GL JS
         const map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [108.220513, 16.068411], // Đà Nẵng (trung tâm miền Trung)
-            zoom: 13,
-            pitch: 45,
-            bearing: 0,
-            antialias: true
+            style: 'mapbox://styles/trinhquyetchien/cm3fly1fb001f01qzeaim5v8l',
+            center: [108.220513, 16.068411], // Tọa độ trung tâm Đà Nẵng
+            zoom: 13
         });
-
-        // Thêm điều khiển zoom và xoay bản đồ
-        map.addControl(new mapboxgl.NavigationControl());
 
         let routeLayer;
 
-        // Lắng nghe sự kiện nhập vào ô tìm kiếm (auto-complete)
         document.getElementById('start').addEventListener('input', function(event) {
             const query = event.target.value;
             if (query) {
@@ -64,10 +57,10 @@
             }
         });
 
-        // Hàm lấy gợi ý địa chỉ từ Mapbox Geocoding API (Giới hạn tìm kiếm trong miền Trung)
+        // Hàm gợi ý vị trí sử dụng API Geocoding của Mapbox
         function getSuggestions(query, inputId) {
             const bbox = [107.0, 12.0, 110.5, 17.5]; // Phạm vi của miền Trung Việt Nam
-            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}&autocomplete=true&limit=5&bbox=${bbox.join(',')}`;
+            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token={{ env('MAPBOX_ACCESS_TOKEN') }}&autocomplete=true&limit=5&bbox=${bbox.join(',')}`;
 
             fetch(url)
                 .then(response => response.json())
@@ -79,50 +72,40 @@
                 });
         }
 
-        // Hàm hiển thị gợi ý
         function displaySuggestions(data, inputId) {
             const suggestionsDiv = document.getElementById(inputId + '-suggestions');
-            suggestionsDiv.innerHTML = ''; // Xóa các gợi ý cũ
+            suggestionsDiv.innerHTML = '';
 
             data.features.forEach(feature => {
                 const suggestion = document.createElement('div');
                 suggestion.classList.add('suggestion-item');
                 suggestion.textContent = feature.place_name;
 
-                // Lắng nghe sự kiện chọn gợi ý
                 suggestion.addEventListener('click', function() {
-                    document.getElementById(inputId).value = feature.place_name; // Đặt giá trị cho ô nhập
-                    clearSuggestions(inputId); // Xóa gợi ý sau khi chọn
+                    document.getElementById(inputId).value = feature.place_name;
+                    clearSuggestions(inputId);
                 });
 
                 suggestionsDiv.appendChild(suggestion);
             });
         }
 
-        // Hàm xóa gợi ý
         function clearSuggestions(inputId) {
             const suggestionsDiv = document.getElementById(inputId + '-suggestions');
             suggestionsDiv.innerHTML = '';
         }
 
-        // Lắng nghe sự kiện gửi form
         document.getElementById('route-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Lấy địa chỉ từ các input
             const start = document.getElementById('start').value;
             const end = document.getElementById('end').value;
 
-            // Dùng Geocoding API để chuyển đổi địa chỉ thành tọa độ
-            Promise.all([
-                geocode(start),
-                geocode(end)
-            ])
+            // Dùng Mapbox Geocoding API để chuyển đổi địa chỉ thành tọa độ
+            Promise.all([geocode(start), geocode(end)])
             .then(results => {
                 const startCoords = results[0];
                 const endCoords = results[1];
-
-                // Gọi Directions API để lấy tuyến đường
                 getRoute(startCoords, endCoords);
             })
             .catch(error => {
@@ -130,9 +113,8 @@
             });
         });
 
-        // Hàm geocode để chuyển đổi địa chỉ thành tọa độ
         function geocode(address) {
-            const geocodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${mapboxgl.accessToken}`;
+            const geocodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token={{ env('MAPBOX_ACCESS_TOKEN') }}`;
             return fetch(geocodeUrl)
                 .then(response => response.json())
                 .then(data => {
@@ -144,57 +126,43 @@
                 });
         }
 
-        // Hàm lấy tuyến đường từ Directions API
         function getRoute(startCoords, endCoords) {
-            const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${startCoords.join(',')};${endCoords.join(',')}?alternatives=false&steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`;
+            const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${startCoords.join(',')};${endCoords.join(',')}?alternatives=false&steps=true&geometries=geojson&access_token={{ env('MAPBOX_ACCESS_TOKEN') }}`;
 
             fetch(directionsUrl)
                 .then(response => response.json())
                 .then(data => {
                     const route = data.routes[0].geometry;
 
-                    // Kiểm tra và xóa tuyến đường cũ nếu có
-                    if (map.getLayer('route-layer')) {
-                        map.removeLayer('route-layer');
-                        map.removeSource('route');
+                    if (routeLayer) {
+                        map.removeLayer(routeLayer);
                     }
 
-                    // Thêm tuyến đường mới vào bản đồ
-                    map.addSource('route', {
-                        type: 'geojson',
-                        data: {
-                            type: 'Feature',
-                            properties: {},
-                            geometry: route
-                        }
+                    routeLayer = new mapboxgl.GeoJSONSource({
+                        type: 'Feature',
+                        geometry: route
                     });
 
                     map.addLayer({
-                        id: 'route-layer',
+                        id: 'route',
                         type: 'line',
-                        source: 'route',
-                        layout: {
-                            'line-join': 'round',
-                            'line-cap': 'round'
-                        },
+                        source: routeLayer,
                         paint: {
                             'line-color': '#FF5733',
                             'line-width': 4
                         }
                     });
 
-                    // Zoom vào tuyến đường
-                    map.fitBounds(route.coordinates);
+                    map.fitBounds(routeLayer.getBounds());
                 })
                 .catch(error => {
-                    console.error('Error fetching directions:', error);
+                    console.error('Lỗi khi lấy tuyến đường:', error);
                     alert('Không thể lấy tuyến đường.');
                 });
         }
     </script>
 
     <style>
-        /* Styling cho gợi ý */
         .suggestions {
             border: 1px solid #ccc;
             max-height: 200px;
