@@ -14,6 +14,6 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        Post::factory()->count(50)->create(); // Tạo 50 bài viết
+        Post::factory()->count(50)->create(); 
     }
 }

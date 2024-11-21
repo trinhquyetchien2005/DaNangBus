@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'customer_id',
+        'type',
+        'end_date',
+        'route',
+        'qr_code',
+    ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
 }

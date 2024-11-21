@@ -45,10 +45,6 @@
                 </ul>
             </div>
             <div class=" w-fit px-3 flex flex-row space-x-3 items-center justify-center">
-                <a href="#">
-                    <i class="fa-regular fa-bell fa-xl" style="color: #005eff;"></i>
-                </a>
-                
                 @auth
                 <a href="{{ route('account.pages') }}" class="flex flex-row items-center justify-center">
                     <p class="text-gray-800 font-semibold hidden mobile:block">{{ Auth::user()->name }}</p>
@@ -56,6 +52,15 @@
                     alt="{{ Auth::user()->name }}"
                     class="w-10 h-10 rounded-full object-cover">
                 </a>
+                <a href="#">
+                    <i class="fa-regular fa-bell fa-xl" style="color: #005eff;"></i>
+                </a>
+                <form action="{{ route('logout') }}" method="POST" class="hidden mobile:block">
+                    @csrf
+                    <button type="submit" class="flex flex-row items-center text-gray-800">
+                        <i class="fa-solid fa-arrow-right-from-bracket text-xl" style="color: #005eff;"></i>
+                    </button>
+                </form>
                 @else
                     <a href="{{ route('login') }}" class="hidden tablet:flex text-white font-semibold mr-4 py-1 px-3 bg-blue-500 rounded-xl">Đăng nhập</a>
                     <a href="{{ route('register') }}" class="hidden tablet:flex text-blue-500 font-semibold">Đăng ký</a>
@@ -63,7 +68,7 @@
                 
                 <div class="laptop:hidden">
                     <button id="menu-button" class="text-gray-800 focus:outline-none">
-                        <i class="fa-solid fa-bars"></i>
+                        <i class="fa-solid fa-bars" style="color: #005eff;"></i>
                     </button>
                     <div id="mobile-menu" class="absolute w-fit p-5 right-5 hidden bg-white shadow-lg top-16 z-50">
                         <ul class="flex flex-col space-y-3">
@@ -84,7 +89,7 @@
                             </li>
                             @auth
                             <li>
-                                <p class="text-gray-800 font-semibold hidden mobile:block">{{ Auth::user()->name }}</p>
+                                <a href="{{ route('logout') }}">Đăng xuất</a>
                             </li>
                             @else
                             <li>

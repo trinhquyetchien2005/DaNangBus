@@ -3,6 +3,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TicketController;
 
 
 Route::group(['prefix' => 'auth'], function () {
@@ -16,6 +17,7 @@ Route::group(['prefix' => 'auth'], function () {
 
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route:: group([],function () {
@@ -44,13 +46,17 @@ Route:: group([],function () {
 
     Route::post('pages/contact', [ContactController::class, 'FeedBack'])->name('contact.feedback');
 
-    Route::get('pages/ticket', function (){
+    Route::get('pages/ticket', function (){ 
         return view('client.pages.ticket');
     })->name('ticket.pages');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {
+
     Route::get('pages/account', function (){
         return view('client.pages.account');
     })->name('account.pages');
+
+    Route::get('pages/ticket', [TicketController::class, 'checkTicket'])->name('ticket.pages');
 });
