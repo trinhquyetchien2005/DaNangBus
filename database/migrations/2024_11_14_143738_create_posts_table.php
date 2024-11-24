@@ -20,6 +20,13 @@ return new class extends Migration
             $table->enum('type', ['Công nghệ', 'Đời sống', 'Hoạt động']);
             $table->timestamps();
         });
+
+        Schema::create('post_img', function (Blueprint $table){
+            $table->id();
+            $table->string('path');
+            $table->timestamps();
+            $table->foreign('id')->references('id')->on('posts')->onDelete('cascade');
+        });
     }
 
     /**

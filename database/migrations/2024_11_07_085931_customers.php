@@ -10,6 +10,8 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name'); 
+            $table->date('date_of_birth')->nullable();
+            $table->string('gender')->nullable();
             $table->string('email')->unique(); 
             $table->timestamp('email_verified_at')->nullable(); 
             $table->string('password'); 
@@ -18,6 +20,21 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
+        });
+
+        Schema::create('tickets', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('customer_id');
+            $table->string('type');
+            $table->date('end_date');
+            $table->integer('expiry');
+            $table->integer('route');
+            $table->integer('price');
+            $table->string('qr_code');
+            $table->string('payment_method');
+            $table->string('active');
+            $table->timestamps();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

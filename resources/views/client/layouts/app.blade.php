@@ -46,11 +46,11 @@
             </div>
             <div class=" w-fit px-3 flex flex-row space-x-3 items-center justify-center">
                 @auth
-                <a href="{{ route('account.pages') }}" class="flex flex-row items-center justify-center">
+                <a href="{{ route('account.show') }}" class="flex flex-row items-center justify-center">
                     <p class="text-gray-800 font-semibold hidden mobile:block">{{ Auth::user()->name }}</p>
-                    <img src="{{ asset(Auth::user()->avatar ? 'storage/' . Auth::user()->avatar : 'image/icon_image/avatar.jpg') }}"
-                    alt="{{ Auth::user()->name }}"
-                    class="w-10 h-10 rounded-full object-cover">
+                    <img src="{{ asset('storage/avatars/' . Auth::user()->avatar) }}" 
+                    alt="{{ Auth::user()->name }}" 
+                    class="w-10 h-10 rounded-full mx-2 object-cover">
                 </a>
                 <a href="#">
                     <i class="fa-regular fa-bell fa-xl" style="color: #005eff;"></i>
