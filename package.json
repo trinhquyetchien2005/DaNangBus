@@ -3,7 +3,8 @@
     "scripts": {
         "vite": "vite",
         "port": "php artisan serve --port 8000",
-        "tailwind": "npx tailwindcss -i ./resources/css/tailwind.css -o ./public/css/tailwind.css --watch"
+        "tailwind": "npx tailwindcss -i ./resources/css/tailwind.css -o ./public/css/tailwind.css --watch",
+        "build": "vite build"
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.3.3",
